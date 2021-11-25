@@ -9,15 +9,17 @@
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 2rem;
   max-width: 1000px;
-  display: flex;
-  flex-direction: row;
-  justify-content: space-between;
   padding: 1rem;
   height: 70vh;
   width: 70vw;
   color: #FFF;
-  background: url("./weather-backgrounds/clear-night.jpg");
+  background: linear-gradient(rgba(0,0,0, 0.3), rgba(0,0,0,0.3)), url("./weather-backgrounds/clear-day.jpg");
   background-size: cover;
+}
+.curr{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
 }
 .cond{
   padding: .3rem;

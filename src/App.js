@@ -18,13 +18,15 @@ class App extends React.Component {
   render(){
     return (
     <div className="App">
-       <Card cond={this.state} />
+      <div className="cont">
+         <Current cond={this.state} />
+       </div>
     </div>
   );
   }
 }
 
-const Card = (props) => {
+const Current = (props) => {
   const [date,setDate] = useState(moment().format('dddd, MMMM Do YYYY'))
   const [time,setTime] = useState(moment().format('h:mm a'))
   useEffect(() => {
@@ -40,7 +42,7 @@ const Card = (props) => {
   }
   })
   return (
-    <div className="cont">
+    <div className="curr">
         <div className="main">
           <div className="date-city text-start">
             <div className="city fw-bold">Delhi,Delhi,India</div>
