@@ -12,7 +12,8 @@ class App extends React.Component {
       "humidity": 0,
       "rain" : 0,
       "temp" : 30,
-      "unit" : "unit" in localStorage ? localStorage.unit : "C"
+      "unit" : "unit" in localStorage ? localStorage.unit : "C",
+      "hist": [{temp:"10"},{temp:"20"},{temp:"30"}]
     }
   }
   render(){
@@ -20,6 +21,9 @@ class App extends React.Component {
     <div className="App">
       <div className="cont">
          <Current cond={this.state} />
+         <div className="hourly-cont row">
+           {this.state.hist.map((value,key) => <Hourly key={key} data={value} />)}
+         </div>
        </div>
     </div>
   );
@@ -61,4 +65,14 @@ const Current = (props) => {
     </div>
   )
 } 
+
+const Hourly = (props) =>{
+ return(
+   <div className="card col time-cont"> 
+     <div className="hist-time">{props.data.time}</div>
+     <div className="hist-icon">{props.data.icon}</div>
+     <div className="hist-temp">{props.data.temp}</div>
+   </div>
+ ) 
+}
 export default App;
