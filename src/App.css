@@ -59,6 +59,12 @@ sup{
   font-weight: 700;
   font-size: 55px;
 }
+
+.temperature-sml{
+  font-weight: 700;
+  font-size: 15px;
+}
+
 .city{
   font-size: 1.6rem;
 }
