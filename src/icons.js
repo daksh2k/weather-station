@@ -1,6 +1,5 @@
 import {WiDaySunny,WiDaySunnyOvercast} from "react-icons/wi";
 const ComponentWithIcon =  (iconName) => {
-    console.log(iconName)
     switch(iconName){
        case "WiDaySunny":   
           return (<WiDaySunny />)

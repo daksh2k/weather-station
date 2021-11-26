@@ -87,6 +87,9 @@ sup{
   display: flex;
   justify-content: center;
 }
+.location-cont{
+  background-color: rgba(100,100,100,0.5)
+}
 /* .humd svg{
   font-size: 3rem;
 } */
