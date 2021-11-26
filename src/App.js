@@ -4,9 +4,9 @@ import {useState,useEffect} from 'react';
 import moment from 'moment';
 // import database from './firebase';
 import { WiHumidity,WiRaindrops } from "react-icons/wi";
-import Button from 'react-bootstrap/Button';
+// import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
-import { alignPropType } from 'react-bootstrap/esm/types';
+// import { alignPropType } from 'react-bootstrap/esm/types';
 
 class App extends React.Component {
   constructor(props){
@@ -16,7 +16,8 @@ class App extends React.Component {
       "rain" : 0,
       "temp" : 30,
       "unit" : "unit" in localStorage ? localStorage.unit : "C",
-      "hist": [{temp:"10"},{temp:"20"},{temp:"30"}]
+      "hist": [{temp:"10"},{temp:"20"},{temp:"30"}],
+      "loc" : [{temp:"10",locaton:"kurla"},{temp:"20",locaton:"kurla"},{temp:"30",locaton:"Alkapuri"}]
     }
   }
   render(){
@@ -25,6 +26,11 @@ class App extends React.Component {
       <div className="cont">
          <Current cond={this.state} />
          <div className="hourly-cont row">
+         {/* Render all the location cards */}
+           {this.state.loc.map((value,key) => <Location key={key} data={value} />)}
+         </div>
+         <div className="hourly-cont row">
+         {/* Render all the previous hourly cards */}
            {this.state.hist.map((value,key) => <Hourly key={key} data={value} />)}
          </div>
        </div>
@@ -73,18 +79,6 @@ const Current = (props) => {
             <div className="sec"><WiRaindrops />Rainfall: {props.cond.rain}mm</div>
             <div className="sec"><WiHumidity />Humidity: {props.cond.humidity}%</div>
         </div>*/}
-        <Card style={{ width: '6rem' , height: '6rem'}}>
-            <Card.Body>
-              <Card.Title ><p style = {{fontSize: '0.6em'}}>Alkapuri</p></Card.Title>
-              <Card.Text>
-              <div className="temperature-sml" style = {{fontSize: '0.7em' }}>{props.cond.temp}</div>
-              <sup>o</sup>
-              <div className="unit">{props.cond.unit}</div>
-              <div className="sec" style = {{fontSize: '0.5em' }}><WiRaindrops />Rainfall: {props.cond.rain}mm</div>
-              <div className="sec" style = {{fontSize: '0.5em' }}><WiHumidity />Humidity: {props.cond.humidity}%</div>
-              </Card.Text>
-            </Card.Body>
-        </Card>
     </div>
   )
 } 
@@ -97,5 +91,22 @@ const Hourly = (props) =>{
      <div className="hist-temp">{props.data.temp}</div>
    </div>
  ) 
+}
+const Location = (props) => {
+  return(        
+  <Card className="card col time-cont">
+    <Card.Body>
+      <Card.Title ><p style = {{fontSize: '0.6em'}}>{props.data.location}</p></Card.Title>
+      <Card.Text>
+      <div className="temp-cont">
+         <div className="temperature-sml" style = {{fontSize: '0.7em' }}>{props.data.temp}</div>
+         <sup>o</sup>
+         <div className="temperature-sml">{props.data.unit}</div>
+      </div>
+      <div className="sec" style = {{fontSize: '0.5em' }}><WiRaindrops />Rainfall: {props.data.rain}mm</div>
+      <div className="sec" style = {{fontSize: '0.5em' }}><WiHumidity />Humidity: {props.data.humidity}%</div>
+      </Card.Text>
+    </Card.Body>
+</Card>)
 }
 export default App;
