@@ -2,8 +2,9 @@ import './App.css';
 import React from 'react';
 import {useState,useEffect} from 'react';
 import moment from 'moment';
+import ComponentWithIcon from './icons'
 // import database from './firebase';
-import { WiHumidity,WiRaindrops } from "react-icons/wi";
+import { WiHumidity,WiRaindrops,WiDaySunny,WiDaySunnyOvercast} from "react-icons/wi";
 // import Button from 'react-bootstrap/Button';
 import Card from 'react-bootstrap/Card';
 // import { alignPropType } from 'react-bootstrap/esm/types';
@@ -15,9 +16,10 @@ class App extends React.Component {
       "humidity": 0,
       "rain" : 0,
       "temp" : 30,
+      "icon" : "WiDaySunny",
       "unit" : "unit" in localStorage ? localStorage.unit : "C",
-      "hist": [{temp:"10"},{temp:"20"},{temp:"30"}],
-      "loc" : [{temp:"10",locaton:"kurla"},{temp:"20",locaton:"kurla"},{temp:"30",locaton:"Alkapuri"}]
+      "hist": [{temp:"10",time:"5:00 PM",rain: 2},{temp:"20",time:"6:00 PM",rain: 2},{temp:"30",time:"7:00 PM",rain: 2}],
+      "loc" : [{temp:"10",location:"Fatehgunj",rain: 2},{temp:"20",location:"Subhanpura",rain: 2},{temp:"30",location:"Alkapuri",rain: 1}]
     }
   }
   render(){
@@ -54,6 +56,7 @@ const Current = (props) => {
     clearInterval(timeInterval)
   }
   })
+  // console.log(props.cond.icon)
   return (
     <div className="curr">
         <div className="main">
@@ -62,49 +65,58 @@ const Current = (props) => {
             <div className="time">{date +" | " +time}</div>
           </div>
            <div className="temp-cont">
+              <div className="b-icon">{ComponentWithIcon(props.cond.icon)}</div>
               <div className="temperature-big">{props.cond.temp}</div>
               <sup>o</sup>
               <div className="unit">{props.cond.unit}</div>
-              <div className="cond text-end">
-                <div className="sec"><WiRaindrops />Rainfall: {props.cond.rain}mm</div>
-                <div className="sec"><WiHumidity />Humidity: {props.cond.humidity}%</div>
-              </div>
            </div>
         </div>
-        {/*<div className="cond text-end">
-            <div className="sec"><WiRaindrops />Alkapuri: {props.cond.rain}mm</div>
-            <div className="sec"><WiHumidity />OP Road: {props.cond.humidity}%</div>
-  </div>*/}
-        {/*<div className="cond text-end">
+        <div className="cond text-end">
             <div className="sec"><WiRaindrops />Rainfall: {props.cond.rain}mm</div>
             <div className="sec"><WiHumidity />Humidity: {props.cond.humidity}%</div>
-        </div>*/}
+        </div>
     </div>
   )
 } 
 
 const Hourly = (props) =>{
  return(
-   <div className="card col time-cont"> 
-     <div className="hist-time">{props.data.time}</div>
-     <div className="hist-icon">{props.data.icon}</div>
-     <div className="hist-temp">{props.data.temp}</div>
-   </div>
- ) 
+ <Card className="card col time-cont">
+  <Card.Body>
+    <Card.Title ><div className="title">{props.data.time}</div></Card.Title>
+    <Card.Text>
+    <div className="temp-cont">
+       <div className="temperature-sml" style = {{fontSize: '0.55em' }}>{props.data.temp}</div>
+       <sup>o</sup>
+       <div className="temperature-sml">C</div>
+    </div>
+    <div className="s-icon"><WiDaySunny /></div>
+    <div className="extra-cond">
+      <div className="sec humd" style = {{fontSize: '1em' }}><WiRaindrops />{props.data.rain}mm</div>
+      <span>&nbsp; | &nbsp;</span>
+      <div className="sec" style = {{fontSize: '1em' }}><WiHumidity />{props.data.humidity}%</div>
+    </div>
+    </Card.Text>
+  </Card.Body>
+</Card>)
 }
 const Location = (props) => {
   return(        
   <Card className="card col time-cont">
     <Card.Body>
-      <Card.Title ><p style = {{fontSize: '0.6em'}}>{props.data.location}</p></Card.Title>
+      <Card.Title><div className="title">{props.data.location}</div></Card.Title>
       <Card.Text>
       <div className="temp-cont">
-         <div className="temperature-sml" style = {{fontSize: '0.7em' }}>{props.data.temp}</div>
+         <div className="temperature-sml" style = {{fontSize: '0.9em' }}>{props.data.temp}</div>
          <sup>o</sup>
-         <div className="temperature-sml">{props.data.unit}</div>
+         <div className="temperature-sml">C</div>
       </div>
-      <div className="sec" style = {{fontSize: '0.5em' }}><WiRaindrops />Rainfall: {props.data.rain}mm</div>
-      <div className="sec" style = {{fontSize: '0.5em' }}><WiHumidity />Humidity: {props.data.humidity}%</div>
+      <div className="s-icon"><WiDaySunny /></div>
+      <div className="extra-cond">
+          <div className="sec humd" style = {{fontSize: '1em' }}><WiRaindrops />{props.data.rain}mm</div>
+          <span>&nbsp; | &nbsp;</span>
+          <div className="sec" style = {{fontSize: '1em' }}><WiHumidity />{props.data.humidity}%</div>
+      </div>
       </Card.Text>
     </Card.Body>
 </Card>)

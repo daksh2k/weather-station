@@ -8,10 +8,10 @@
 .cont{
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   border-radius: 2rem;
-  max-width: 1000px;
+  max-width: 1200px;
   padding: 1rem;
-  height: 60vh;
-  width: 70vw;
+  height: 90vh;
+  width: 90vw;
   color: #FFF;
   background: linear-gradient(rgba(0,0,0, 0.3), rgba(0,0,0,0.3)), url("./weather-backgrounds/clear-day.jpg");
   background-size: cover;
@@ -28,13 +28,15 @@
   background-color: transparent;
   box-shadow: rgba(0, 0, 0, 0.35) 0px 5px 15px;
   margin: 0 1rem;
+  max-width: 250px;
 }
 .hourly-cont{
-  padding: 1rem;
+  padding: .5rem;
+  justify-content: center;
 }
 .cond{
   padding: .3rem;
-  margin-right: 1rem;
+  margin: 3rem 5rem 0 0;
 }
 .cond svg{
   width: 3rem;
@@ -59,15 +61,32 @@ sup{
   font-weight: 700;
   font-size: 55px;
 }
-
 .temperature-sml{
   font-weight: 700;
   font-size: 15px;
 }
-
 .city{
   font-size: 1.6rem;
 }
 .time{
   font-size: 1.2rem;
 }
+.title{
+  font-size: 2rem;
+  font-weight: 700;
+}
+.b-icon{
+  font-size: 8rem;
+  color: yellow;
+}
+.s-icon{
+  font-size: 3rem;
+  color: yellow;
+}
+.extra-cond{
+  display: flex;
+  justify-content: center;
+}
+/* .humd svg{
+  font-size: 3rem;
+} */
