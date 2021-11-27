@@ -6,6 +6,10 @@ import ComponentWithIcon from './icons'
 import { WiHumidity, WiRaindrops, WiDaySunny } from "react-icons/wi";
 import Card from 'react-bootstrap/Card';
 
+// Firebase imports
+import db from './firebase'
+import {ref, onValue, child, get} from "firebase/database";
+
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -25,6 +29,29 @@ class App extends React.Component {
         { temp: "28", location: "Subhanpura", rain: 2, humidity: 45 }, 
         { temp: "29", location: "Alkapuri", rain: 1, humidity: 55 }]
     }
+  }
+  componentDidMount(){
+    const allData = ref(db);
+    get(child(allData, "test")).then((snapshot) => {
+      if (snapshot.exists()) {
+        const data = snapshot.val()
+        console.log(data);
+    // //     this.updateWeatherData(data)
+      } else {
+        console.log("No data available");
+      }
+    }).catch((error) => {
+      console.error(error);
+    });
+    // const allData = ref(db, 'test');
+    // onValue(allData, (snapshot) => {
+    //   const data = snapshot.val();
+    //   console.log(data)
+    //   this.updateWeatherData(postElement, data);
+    // });
+  }
+  updateWeatherData(data){
+    console.log(data)
   }
   render() {
     return (
@@ -84,7 +111,7 @@ const Current = (props) => {
 
 const Hourly = (props) => {
   return (
-    <Card className="card col time-cont">
+    <Card className="col-sm-12 time-cont">
       <Card.Body>
         <Card.Title ><div className="title">{props.data.time}</div></Card.Title>
         <Card.Text>
@@ -105,7 +132,7 @@ const Hourly = (props) => {
 }
 const Location = (props) => {
   return (
-    <Card className="card col time-cont location-cont">
+    <Card className="col-sm-12 time-cont location-cont">
       <Card.Body>
         <Card.Title><div className="title">{props.data.location}</div></Card.Title>
         <Card.Text>
