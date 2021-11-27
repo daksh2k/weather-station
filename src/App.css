@@ -90,6 +90,16 @@ sup{
 .location-cont{
   background-color: rgba(100,100,100,0.5)
 }
-/* .humd svg{
-  font-size: 3rem;
-} */
+@media(max-width: 767px){
+  .cont{
+    height: auto;
+    width: auto;
+  }
+  .curr{
+    margin-top: 93rem;
+    flex-direction: column;
+  }
+  .card{
+    margin: 1rem;
+  }
+}
