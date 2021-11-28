@@ -13,6 +13,13 @@ import {ref, onValue, child, get} from "firebase/database";
 class App extends React.Component {
   constructor(props) {
     super(props);
+    const timeCur = new Date()
+    const time1 = new Date()
+    const time2 = new Date()
+    const time3 = new Date()
+    time1.setTime(time1-1000*60*60)
+    time2.setTime(time2-1000*60*60*2)
+    time3.setTime(time3-1000*60*60*3)
     this.state = {
       "humidity": 60,
       "rain": 2,
@@ -20,10 +27,10 @@ class App extends React.Component {
       "icon": "WiDaySunny",
       "unit": "unit" in localStorage ? localStorage.unit : "C",
       "hist": [
-        { temp: "30", time: "5:00 PM", rain: 0, humidity: 50 }, 
-        { temp: "28", time: "6:00 PM", rain: 2, humidity: 50 }, 
-        { temp: "27", time: "7:00 PM", rain: 2, humidity: 50 }, 
-        { temp: "26", time: "8:00 PM", rain: 2, humidity: 50 }],
+        { temp: "30", time: time3.toLocaleTimeString([],{hour: '2-digit', minute: '2-digit'}), rain: 0, humidity: 50 }, 
+        { temp: "28", time: time2.toLocaleTimeString([],{hour: '2-digit', minute: '2-digit'}), rain: 2, humidity: 50 }, 
+        { temp: "27", time: time1.toLocaleTimeString([],{hour: '2-digit', minute: '2-digit'}), rain: 2, humidity: 50 }, 
+        { temp: "26", time: timeCur.toLocaleTimeString([],{hour: '2-digit', minute: '2-digit'}), rain: 2, humidity: 50 }],
       "loc": [
         { temp: "30", location: "Fatehgunj", rain: 2, humidity: 50 }, 
         { temp: "28", location: "Subhanpura", rain: 2, humidity: 45 }, 
@@ -31,27 +38,40 @@ class App extends React.Component {
     }
   }
   componentDidMount(){
-    const allData = ref(db);
-    get(child(allData, "test")).then((snapshot) => {
-      if (snapshot.exists()) {
-        const data = snapshot.val()
-        console.log(data);
-    // //     this.updateWeatherData(data)
-      } else {
-        console.log("No data available");
-      }
-    }).catch((error) => {
-      console.error(error);
-    });
-    // const allData = ref(db, 'test');
-    // onValue(allData, (snapshot) => {
-    //   const data = snapshot.val();
-    //   console.log(data)
-    //   this.updateWeatherData(postElement, data);
+    // this.setState({
+    //   hist : [
+    //     {temp: this.state.his}
+    //   ] 
+    // })
+    // const allData = ref(db);
+    // get(child(allData, "Calculated Data")).then((snapshot) => {
+    //   if (snapshot.exists()) {
+    //     const data = snapshot.val()
+    //     console.log(data);
+    //     this.updateWeatherData(data)
+    //   } else {
+    //     console.log("No data available");
+    //   }
+    // }).catch((error) => {
+    //   console.error(error);
     // });
+    const allData = ref(db, 'UNITS');
+    onValue(allData, (snapshot) => {
+      const data = snapshot.val();
+      console.log(data)
+      this.updateWeatherData(data);
+    });
   }
-  updateWeatherData(data){
-    console.log(data)
+ updateWeatherData = (data) => {
+    const curr = data["UNIT_1"][Object.keys(data["UNIT_1"])[Object.keys(data["UNIT_1"]).length -1]]
+    const prev = data["UNIT_1"][Object.keys(data["UNIT_1"])[Object.keys(data["UNIT_1"]).length -2]]
+    console.log(curr)
+    this.setState({ 
+      prev: prev,
+      humidity: curr?.dht?.humidity || this.state.prev?.dht?.humidity,
+      temp: curr?.dht?.temperature || this.state.prev?.dht?.temperature,
+      rain: curr?.water?.water || this.state.prev?.water?.water
+    })
   }
   render() {
     return (
